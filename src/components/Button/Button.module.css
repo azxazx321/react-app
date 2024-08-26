@@ -1,0 +1,9 @@
+.btn{
+    padding: 8px 13px;
+    
+}
+
+.btn-primary{
+    background-color: blue;
+    color: white;
+}
