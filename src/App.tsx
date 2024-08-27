@@ -13,99 +13,37 @@ import Expandable from "./components/Expandable";
 import Form from "./components/Form";
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ExpenseTracker from "./components/ExpenseTracker/ExpenseTracker";
+import ExpenseList from "./components/expense-tracker/components/ExpenseList";
+import ExpenseFilter from "./components/expense-tracker/components/ExpenseFilter";
+import { set } from "react-hook-form";
+import ExpenseForm from "./components/expense-tracker/components/ExpenseForm";
 
 
 function App() {
-  let items = [
-    'New York',
-    'San Francisco',
-    'Tokyo',
-    'London',
-    'Paris'
-];
-
- const handleSeletedItem = (item: string) => {
-  console.log(item)
- }
- 
- const [isShow, setIsShow] = useState(true)
-
- const handleIsShow = () => {
-      setIsShow(!isShow)
- }
-
- const [cardItems, setCardItems] = useState(['Product1', 'Product2'])
+  const [expenses, setExpenses] = useState([
+    { id:1,description:'1', amount: 10,category: 'a'},
+    {id: 2,description:'2',amount: 20,category: 'b'}]
+  )
+  const [selectedCategory, setSelectedcategory] = useState('')
 
 
- const [pizza, setPizza] = useState({
-  name: 'Spicy Pepperoni',
-  toppings: ['Mushrooms']
- })
-
- const handleClick = () => {
-    setPizza(
-      {
-        ...pizza,
-        toppings: [
-          ...pizza.toppings, 'chesse'
-        ]
-      }
-    )
- }
-
-
- const [cart, setCart] = useState({
-  discount: .1,
-  items: [{
-    id: 1 ,title: 'Product 1', quantity: 1
-  }, {
-    id: 2 ,title: 'Product 2', quantity: 1
-  }
-]
- })
- console.log(...cart.items)
- 
- const changeQuantity = () => {
-   setCart({
-     ...cart,
-     items: 
-        cart.items.map(
-          item => ({
-            ...item,
-            quantity: item.id === 1 ? item.quantity + 1 : item.quantity
-          })
-        )
-       
-     
-   })
-
-  //  setCart({
-  //   ...cart,
-  //   items: 
-  //      cart.items.map(
-  //        item => item.id === 1 ? {...item, quantity:item.quantity + 1 } : item
-  //      )
-      
-    
-  // })
- }
+  const visibleExpenses = selectedCategory ? expenses.filter(expense => expense.category === selectedCategory) : expenses
+  // const onSelectCategory = (category) => {
+  //    setSelectedcategory(category);
+  // }
+  
+  
 
   return <div>
-    <BsFillCalendarFill/>
-    <ListGroup items={items} heading="cities" onSelectedItem={handleSeletedItem}/>
-    {/* <Alert text="hello world" /> */}
-    <Alert text="This is alert" isShow={isShow} />
-    <Button color="primary" onClick={handleIsShow}>My Button</Button>
-    <Like onClick={()=>console.log('clicked')}/>
-    <NavBar cartItemsCount={cardItems.length}/>
-    <Cart cartItems={cardItems} onClear={()=> setCardItems([])}/>
-    id: {cart.items[0].id}
+    
+    {/* <ExpenseTracker/> */}
+    <ExpenseForm onSubmit={expense => setExpenses([...expenses, {...expense, id: expense.length + 1}])}/>
+    <div className="mb-3">
+    <ExpenseFilter onSelectCategory={(category) => setSelectedcategory(category)} />
 
-    quantity: {cart.items[0].quantity}
-    <button onClick={changeQuantity}>Add Quantity</button>
- 
-    <Expandable maxChar={10}>yuilkhlk380912830912830912809382109380912jhlkjlkjkkjljoijoi</Expandable>
-    <Form />
+    </div>
+    <ExpenseList expenses={visibleExpenses} onDelete={(id)=> setExpenses(expenses.filter(expense => expense.id !== id))}/>
   </div>
 }
 
