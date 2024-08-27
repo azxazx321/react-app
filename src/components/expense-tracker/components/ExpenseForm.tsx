@@ -46,7 +46,7 @@ const ExpenseForm = ({onSubmit}: Props) => {
                  {categories.map(category => <option key={category} value={category}>{category}</option>)}
                 </select>
             </div>
-            {errors.category && <p className='text-danger'>{errors.categories.message}</p> }
+            {errors.category && <p className='text-danger'>{errors.category.message}</p> }
 
             <button className="btn btn-primary" type='submit' >Submit</button>
         </form>

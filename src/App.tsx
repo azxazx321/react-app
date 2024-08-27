@@ -38,7 +38,7 @@ function App() {
   return <div>
     
     {/* <ExpenseTracker/> */}
-    <ExpenseForm onSubmit={expense => setExpenses([...expenses, {...expense, id: expense.length + 1}])}/>
+    <ExpenseForm onSubmit={expense => setExpenses([...expenses, {...expense, id: expenses.length + 1}])}/>
     <div className="mb-3">
     <ExpenseFilter onSelectCategory={(category) => setSelectedcategory(category)} />
 
