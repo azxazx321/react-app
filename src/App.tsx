@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios, { Axios } from 'axios';
+import axios, { Axios, CanceledError } from 'axios';
 
 interface User {
   id: number;
@@ -11,16 +11,20 @@ interface User {
 }
 
 function App() {
-  const connect = () => console.log('Connecting')
-  const disconnect = () => console.log('Disconnecting')
 
   const [users, setUsers] = useState<User[]>([])
   const [error, setError] = useState('')
   useEffect(() => {
+    const controller = new AbortController();
+
     // get -> primise -> res / err
-    axios.get<User[]>('https://jsonplaceholder.typicode.com/users').then(
+    axios.get<User[]>('https://jsonplaceholder.typicode.com/users', {signal: controller.signal}).then(
       res => setUsers(res.data)
-    ).catch(err => setError(err.message))
+    ).catch(err => {
+      if( err instanceof CanceledError) return
+      setError(err.message)})
+    
+    return () => controller.abort()
   },[])
 
   return (
