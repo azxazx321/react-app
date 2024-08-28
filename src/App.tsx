@@ -5,6 +5,7 @@ import './App.css'
 
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ProductList from './components/ProductList';
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
 
   return (<div>
       <div>
-        <input ref={ref} type="text" className="form-control" />
+        <ProductList />
       </div>
    
   </div>)
