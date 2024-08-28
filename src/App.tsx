@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css'
 
 
@@ -9,19 +9,16 @@ import ProductList from './components/ProductList';
 
 
 function App() {
-  const ref = useRef<HTMLInputElement>(null)
-  useEffect(() => {
-    if(ref.current) {ref.current.focus(); console.log('focus')}
-
-  }  )
-
-  useEffect(() => {
-    document.title = 'my app'
-  })
+  const [category, setCategory] = useState('')  
 
   return (<div>
       <div>
-        <ProductList />
+      <select className='form-select' onChange={(e) => setCategory(e.target.value)}>
+                <option value=""></option>
+                <option value="Clothing">Clothing</option>
+                <option value="Household">Household</option>
+        </select>
+        <ProductList category={category}/>
       </div>
    
   </div>)
