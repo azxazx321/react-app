@@ -16,8 +16,8 @@ class HttpService {
          const request = apiClient.get<T[]>(this.endpoint, {signal: controller.signal})
         return { request, cancel: () => controller.abort() }
     }
-    delete<T extends Entity>(entity: T) {
-        return apiClient.delete(this.endpoint+ entity.id)
+    delete<T>(id : number) {
+        return apiClient.delete(this.endpoint+"/" + id)
     }
     create<T>(entity: T) {
        return apiClient.post(this.endpoint , entity)
