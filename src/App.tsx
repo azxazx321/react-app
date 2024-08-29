@@ -42,14 +42,28 @@ function App() {
       setUsers(originalUsers)
     })
   }
+  const addUser = () => {
+    const newUsers = {id: 0, name: 'Mosh'}
+    const originalUsers = [...users]
+    setUsers([...users, newUsers])
+    axios.post('https://jsonplaceholder.typicode.com/users/' , newUsers)
+    .then(({data : savedUser}) => setUsers([savedUser, ...users ]))
+    .catch( err => {
+      setError(err.message);
+      setUsers(originalUsers)
+    })
+  }
   return (
     <>
         {isLoading && <div className="spinner-border"></div>}
        {error && <p className="text-danger">{error}</p>}
+       <button className="btn btn-outline-danger" onClick={() => addUser()}>Add</button>
+
       <ul className='list-group'>
         {users.map( user => <li key={user.id} className='list-group-item d-flex justify-content-between'>
           {user.name}
           <button className="btn btn-outline-danger" onClick={() => deleteUser(user)}>Delete</button>
+
           </li>)}
       </ul>
     </>
