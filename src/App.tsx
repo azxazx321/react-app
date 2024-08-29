@@ -53,6 +53,16 @@ function App() {
       setUsers(originalUsers)
     })
   }
+  const updateUser = (user: User) => {
+    const updateUser = {...user, name: user.name + '!'}
+    const originalUsers = [...users]
+    setUsers(users.map( u => u.id === user.id ? updateUser : u))
+    axios.patch('https://jsonplaceholder.typicode.com/users/' + user.id, updateUser)
+    .catch( err => {
+      setError(err.message);
+      setUsers(originalUsers)
+    })
+  }
   return (
     <>
         {isLoading && <div className="spinner-border"></div>}
@@ -62,7 +72,12 @@ function App() {
       <ul className='list-group'>
         {users.map( user => <li key={user.id} className='list-group-item d-flex justify-content-between'>
           {user.name}
-          <button className="btn btn-outline-danger" onClick={() => deleteUser(user)}>Delete</button>
+          <div>
+            <button className="btn btn-outline-secondary mx-1" onClick={() => updateUser(user)}>Update</button>
+
+            <button className="btn btn-outline-danger" onClick={() => deleteUser(user)}>Delete</button>
+          </div>
+         
 
           </li>)}
       </ul>
